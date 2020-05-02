@@ -346,7 +346,7 @@ class DoubleDictGraph:
 		m = self._number_of_edges
 
 		matrix = [[0 for x in range(n)] for y in range(n)]
-		p = [[-1 for x in range(n)] for y in range(n)]
+		p = [[0 for x in range(n)] for y in range(n)]
 
 		for x in range(0, n):
 			for y in range(0, n):
@@ -360,6 +360,8 @@ class DoubleDictGraph:
 
 				if matrix[x][y] != float("inf") and x != y:
 					p[x][y] = x
+				else:
+					p[x][y] = 0
 
 		print("Before:")
 
@@ -371,10 +373,10 @@ class DoubleDictGraph:
 					print(element, end=" ")
 			print("\n")
 
-		for i in range(0, n):
-			for j in range(0, n):
-				for k in range(0, n):
-					if  matrix[i][j] > matrix[i][k] + matrix[k][j] and i != j:
+		for k in range(0, n):
+			for i in range(0, n):
+				for j in range(0, n):
+					if  matrix[i][j] > matrix[i][k] + matrix[k][j]:
 						matrix[i][j] = matrix[i][k] + matrix[k][j]
 						p[i][j] = p[k][j]
 
@@ -399,8 +401,11 @@ class DoubleDictGraph:
 
 		k = n
 		u = y
-		print(u, end=" ")
+		path = []
+		path.append(u)
 		while u != x:
 			u = p[x][u]
 			k -= 1
-			print(u, end=" ")
+			path.append(u)
+
+		print(list(reversed(path)))
