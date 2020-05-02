@@ -345,27 +345,27 @@ class DoubleDictGraph:
 		n = self.get_number_of_vertices()
 		m = self._number_of_edges
 
-		matrix = [[0 for x in range(n)] for y in range(n)]
+		cost_matrix = [[0 for x in range(n)] for y in range(n)]
 		p = [[0 for x in range(n)] for y in range(n)]
 
 		for x in range(0, n):
 			for y in range(0, n):
 				if x == y:
-					matrix[x][y] = 0
+					cost_matrix[x][y] = 0
 					continue
 				try:
-					matrix[x][y] = self.retrieve_edge_cost(x, y)
+					cost_matrix[x][y] = self.retrieve_edge_cost(x, y)
 				except KeyError:
-					matrix[x][y] = float("inf")	
+					cost_matrix[x][y] = float("inf")	
 
-				if matrix[x][y] != float("inf") and x != y:
+				if cost_matrix[x][y] != float("inf") and x != y:
 					p[x][y] = x
 				else:
 					p[x][y] = 0
 
 		print("Before:")
 
-		for line in matrix:
+		for line in cost_matrix:
 			for element in line:
 				if element == float("inf"):
 					print("i", end=" ")
@@ -376,12 +376,12 @@ class DoubleDictGraph:
 		for k in range(0, n):
 			for i in range(0, n):
 				for j in range(0, n):
-					if  matrix[i][j] > matrix[i][k] + matrix[k][j]:
-						matrix[i][j] = matrix[i][k] + matrix[k][j]
+					if  cost_matrix[i][j] > cost_matrix[i][k] + cost_matrix[k][j]:
+						cost_matrix[i][j] = cost_matrix[i][k] + cost_matrix[k][j]
 						p[i][j] = p[k][j]
 
 		print("After:")
-		for line in matrix:
+		for line in cost_matrix:
 			for element in line:
 				if element == float("inf"):
 					print("i", end=" ")
@@ -399,13 +399,16 @@ class DoubleDictGraph:
 		x = int(input("Enter the first vertex:"))
 		y = int(input("Enter the second vertex:"))
 
+		### Finding the path
 		k = n
 		u = y
 		path = []
 		path.append(u)
+		cost = 0
 		while u != x:
 			u = p[x][u]
 			k -= 1
 			path.append(u)
 
 		print(list(reversed(path)))
+		print("Cost: ", cost_matrix[x][y])
