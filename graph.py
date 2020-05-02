@@ -363,15 +363,8 @@ class DoubleDictGraph:
 				else:
 					p[x][y] = 0
 
-		print("Before:")
 
-		for line in cost_matrix:
-			for element in line:
-				if element == float("inf"):
-					print("i", end=" ")
-				else:
-					print(element, end=" ")
-			print("\n")
+		f = open("warshall_floyd_result.txt", "w")
 
 		for k in range(0, n):
 			for i in range(0, n):
@@ -380,20 +373,29 @@ class DoubleDictGraph:
 						cost_matrix[i][j] = cost_matrix[i][k] + cost_matrix[k][j]
 						p[i][j] = p[k][j]
 
-		print("After:")
+		print("Cost matrix:")
+		f.write("Cost matrix:\n")
 		for line in cost_matrix:
 			for element in line:
 				if element == float("inf"):
 					print("i", end=" ")
+					f.write("i ")
 				else:
 					print(element, end=" ")
+					f.write(str(element))
+					f.write(" ")
 			print("\n")
+			f.write("\n")
 
-		print("P:")
+		print("Path matrix:")
+		f.write("Path matrix:\n")
 		for line in p:
 			for element in line:
 				print(element, end=" ")
+				f.write(str(element))
+				f.write(" ")
 			print("\n")
+			f.write("\n")
 
 
 		x = int(input("Enter the first vertex:"))
@@ -404,11 +406,14 @@ class DoubleDictGraph:
 		u = y
 		path = []
 		path.append(u)
-		cost = 0
 		while u != x:
 			u = p[x][u]
 			k -= 1
 			path.append(u)
 
+		f.write("The path between {} and {} is:\n".format(x, y))
+		f.write(str(list(reversed(path))))
 		print(list(reversed(path)))
+		f.write("\nIts cost is: ")
+		f.write(str(cost_matrix[x][y]))
 		print("Cost: ", cost_matrix[x][y])

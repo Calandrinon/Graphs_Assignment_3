@@ -1,0 +1,8 @@
+> def floyd_warshall(self):
+	...
+
+This method is written in graph.py.
+At the beginning, the distance and the path matrix are initialized.
+Then the actual algorithm is run.
+The cost matrix and the path matrix are written in the output file
+Finally, the user is asked to input two vertices and the shortest path with the cost between them is written in the file.
