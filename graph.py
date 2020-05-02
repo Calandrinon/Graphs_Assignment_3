@@ -346,6 +346,7 @@ class DoubleDictGraph:
 		m = self._number_of_edges
 
 		matrix = [[0 for x in range(n)] for y in range(n)]
+		p = [[-1 for x in range(n)] for y in range(n)]
 
 		for x in range(0, n):
 			for y in range(0, n):
@@ -356,6 +357,9 @@ class DoubleDictGraph:
 					matrix[x][y] = self.retrieve_edge_cost(x, y)
 				except KeyError:
 					matrix[x][y] = float("inf")	
+
+				if matrix[x][y] != float("inf") and x != y:
+					p[x][y] = x
 
 		print("Before:")
 
@@ -370,8 +374,9 @@ class DoubleDictGraph:
 		for i in range(0, n):
 			for j in range(0, n):
 				for k in range(0, n):
-					if self.is_edge(i, j) and matrix[i][j] > matrix[i][k] + matrix[k][j]:
+					if  matrix[i][j] > matrix[i][k] + matrix[k][j] and i != j:
 						matrix[i][j] = matrix[i][k] + matrix[k][j]
+						p[i][j] = p[k][j]
 
 		print("After:")
 		for line in matrix:
@@ -381,3 +386,21 @@ class DoubleDictGraph:
 				else:
 					print(element, end=" ")
 			print("\n")
+
+		print("P:")
+		for line in p:
+			for element in line:
+				print(element, end=" ")
+			print("\n")
+
+
+		x = int(input("Enter the first vertex:"))
+		y = int(input("Enter the second vertex:"))
+
+		k = n
+		u = y
+		print(u, end=" ")
+		while u != x:
+			u = p[x][u]
+			k -= 1
+			print(u, end=" ")
