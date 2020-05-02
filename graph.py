@@ -363,7 +363,6 @@ class DoubleDictGraph:
 				else:
 					p[x][y] = 0
 
-
 		f = open("warshall_floyd_result.txt", "w")
 
 		for k in range(0, n):
